@@ -13,6 +13,7 @@ module ExactTargetSDK
   autoload :BusinessUnitClient, 'exact_target_sdk/business_unit_client'
   autoload :Campaign, 'exact_target_sdk/campaign'
   autoload :Client, 'exact_target_sdk/client'
+  autoload :ClientID, 'exact_target_sdk/client_i_d'
   autoload :ClickEvent, 'exact_target_sdk/click_event'
   autoload :ComplexFilterPart, 'exact_target_sdk/complex_filter_part'
   autoload :ContentArea, 'exact_target_sdk/content_area'
