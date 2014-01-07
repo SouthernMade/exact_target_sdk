@@ -301,6 +301,8 @@ class Client
   #
   # Returns the raw savon response.
   def execute_request(method)
+      username_for_request = config[:username]
+      password_for_request = config[:password]
       response = client.request(method) do
         soap.xml do |xml|
           xml.s :Envelope,
@@ -320,8 +322,8 @@ class Client
               xml.a :To, ExactTargetSDK.config[:endpoint], "s:mustUnderstand" => "1"
               xml.o :Security, "s:mustUnderstand" => "1" do
                 xml.o :UsernameToken, "o:Id" => "test" do
-                  xml.o :Username, ExactTargetSDK.config[:username]
-                  xml.o :Password, ExactTargetSDK.config[:password]
+                  xml.o :Username, username_for_request
+                  xml.o :Password, password_for_request
                 end
               end
             end
