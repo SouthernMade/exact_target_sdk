@@ -1,9 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'activemodel', '~> 3.0'
-gem 'activesupport', '~> 3.0'
-gem 'guid'
-gem 'savon', '~> 1.2'
+# Specify your gem's dependencies in foundation.gemspec
+gemspec
 
 group :rake do
   gem 'simple_gem', :require => 'tasks/simple_gem'
