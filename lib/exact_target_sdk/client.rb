@@ -47,10 +47,27 @@ class Client
   def Create(*args)
     # TODO: implement and accept CreateOptions
 
+    client_scopes = []
+    #This is necessary because ExactTarget is a piece of shit.
+    potential_client_scopes = args.select{|a| a.is_a?(Hash)}
+    unless potential_client_scopes.blank?
+      client_scopes = potential_client_scopes.select{|hash| hash['ClientIDs']}
+    end
+
+    args = args.reject{|a| a.is_a?(Hash)}
+
     api_objects, options =  filter_options(args)
 
     response = execute_request 'Create' do |xml|
       xml.CreateRequest do
+
+        unless client_scopes.blank?
+          client_scopes.each do |scope|
+            xml.ClientIDs do
+              xml.ID scope['ClientIDs']
+            end
+          end
+        end
 
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
@@ -89,11 +106,30 @@ class Client
   def Retrieve(object_type_name, filter, *args)
     object_type_name = object_type_name.type_name if object_type_name.respond_to?(:type_name)
 
-    properties, options =  filter_options(args)
+    client_scopes = []
+    #This is necessary because ExactTarget is a piece of shit.
+    potential_client_scopes = args.select{|a| a.is_a?(Hash)}
+    unless potential_client_scopes.blank?
+      client_scopes = potential_client_scopes.select{|hash| hash['ClientIDs']}
+    end
+
+    args = args.reject{|a| a.is_a?(Hash)}
+
+    properties, options  =  filter_options(args)
+
 
     response = execute_request 'Retrieve' do |xml|
       xml.RetrieveRequestMsg do
         xml.RetrieveRequest do
+
+
+          unless client_scopes.blank?
+            client_scopes.each do |scope|
+              xml.ClientIDs do
+                xml.ID scope['ClientIDs']
+              end
+            end
+          end
 
           xml.ObjectType object_type_name
 
