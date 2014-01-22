@@ -77,7 +77,17 @@ class Client
 
         options.each do |option|
           xml.Options do
-            option.render!(xml)
+            if option.SaveOptions.blank?
+              option.render!(xml)
+            else
+              xml.SaveOptions do
+                option.SaveOptions.each do |opt|
+                  xml.SaveOption do
+                    opt.render!(xml)
+                  end
+                end
+              end
+            end
           end
         end
 
